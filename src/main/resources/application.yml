@@ -11,9 +11,8 @@ logging:
 
 api-config:
   apis:
-    GetSniffResApi: http://baidu.com
-    SetSubscribeUrlApi: https://google.com
-    GetConfigApi: http://baidu.com
+    GetSniffResApi: http://localhost:666/sniff/getSniffRes
+    UpdatePortApi: http://localhost:666/subscribe/updatePort
 
 authorized:
   token: 7a9f0305db436ed82a0c91f270fd5685
