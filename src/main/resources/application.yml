@@ -7,7 +7,7 @@ logging:
       dingxs:
         subscribeclient: debug
   file:
-    path: logs
+    path: logs/subscribe-client.log
 
 api-config:
   apis:
