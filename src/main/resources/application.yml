@@ -14,6 +14,7 @@ api-config:
   apis:
     GetSniffResApi: http://localhost:666/sniff/getSniffRes
     UpdatePortApi: http://localhost:666/subscribe/updatePort
+    GenerateNewPortApi: http://localhost:666/sniff/generateNewPort
 
 authorized:
   token: 7a9f0305db436ed82a0c91f270fd5685

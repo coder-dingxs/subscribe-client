@@ -7,14 +7,8 @@ import org.springframework.web.client.RestTemplate;
 import xyz.dingxs.subscribeclient.common.config.ApisConfig;
 import xyz.dingxs.subscribeclient.common.config.AuthorizedConfig;
 
-/**
- * 获取嗅探结果api
- *
- * @author dingxs
- */
 @Component
-public class GetSniffResApi {
-
+public class GenerateNewPortApi {
     @Autowired
     private AuthorizedConfig authorizedConfig;
 
@@ -24,18 +18,17 @@ public class GetSniffResApi {
     @Autowired
     private RestTemplate restTemplate;
 
-    public Boolean get() {
-        String url = apisConfig.getApis().get("GetSniffResApi");
-        String token = authorizedConfig.getToken();
+    public Integer generate() {
+        String url = apisConfig.getApis().get("GenerateNewPortApi");
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("token", token);
+        headers.add("token", authorizedConfig.getToken());
         HttpEntity<Void> entity = new HttpEntity<>(headers);
-        ResponseEntity<Boolean> responseEntity = restTemplate.exchange(url, HttpMethod.GET, entity, Boolean.class);
+        ResponseEntity<Integer> responseEntity = restTemplate.exchange(url, HttpMethod.GET, entity, Integer.class);
         if (HttpStatus.OK == responseEntity.getStatusCode()) {
             return responseEntity.getBody();
         } else {
-            return true;
+            return null;
         }
     }
 }

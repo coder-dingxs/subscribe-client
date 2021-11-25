@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import xyz.dingxs.subscribeclient.api.GenerateNewPortApi;
 import xyz.dingxs.subscribeclient.api.GetSniffResApi;
 import xyz.dingxs.subscribeclient.api.UpdatePortApi;
 import xyz.dingxs.subscribeclient.service.V2rayService;
@@ -32,6 +33,9 @@ public class ClintTask {
     @Autowired
     private UpdatePortApi updatePortApi;
 
+    @Autowired
+    private GenerateNewPortApi generateNewPortApi;
+
     @Scheduled(cron = "${clint-ask.cron}")
     public void run() {
 
@@ -43,9 +47,9 @@ public class ClintTask {
         // true 不操作
         if (!res) {
             // 生成端口
+            Integer port = generateNewPortApi.generate();
 
-            Random random = new Random();
-            int port = random.nextInt(9999) + 10000;
+            // 修改config的端口
             logger.debug("random port: {}", port);
             v2rayService.changePort(port);
 
