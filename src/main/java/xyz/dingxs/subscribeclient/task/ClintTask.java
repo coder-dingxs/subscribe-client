@@ -10,6 +10,8 @@ import xyz.dingxs.subscribeclient.api.GetSniffResApi;
 import xyz.dingxs.subscribeclient.api.UpdatePortApi;
 import xyz.dingxs.subscribeclient.service.V2rayService;
 
+import java.util.Random;
+
 /**
  * 定时任务
  *
@@ -38,8 +40,9 @@ public class ClintTask {
         // true 不操作
         if (!res) {
             // 生成端口
-            int port = 1;
-            // false 修改端口
+            Random random = new Random();
+            int port = random.nextInt(9999) + 10000;
+
             v2rayService.changePort(port);
 
             // 重启服务
