@@ -36,14 +36,16 @@ public class V2rayService {
         String fileName = v2rayConfig.getFileName();
         try {
             String read = FileUtil.read(fileName);
+            logger.debug("old config: {}", read);
             Map<String, Object> map = objectMapper.readValue(read, new TypeReference<Map<String, Object>>() {
             });
             List<Map<String, Object>> inbounds = (List<Map<String, Object>>) map.get("inbounds");
             inbounds.get(0).put("port", port);
             String newConfig = objectMapper.writeValueAsString(map);
             FileUtil.write(fileName, newConfig);
+            logger.debug("new config: {}", newConfig);
         } catch (Exception e) {
-            logger.error("", e);
+            logger.error("changePort Exception", e);
         }
     }
 
@@ -53,9 +55,17 @@ public class V2rayService {
     public void restart() {
         String restartShell = v2rayConfig.getRestartShell();
         try {
-
             Process ps = Runtime.getRuntime().exec(restartShell);
             ps.waitFor(5, TimeUnit.SECONDS);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(ps.getInputStream()));
+            StringBuilder out = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                out.append(line).append("\n");
+            }
+
+            logger.debug("{}--->{}", restartShell, out);
         } catch (Exception e) {
             logger.error("restart Exception", e);
         }

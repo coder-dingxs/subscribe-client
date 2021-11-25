@@ -35,14 +35,18 @@ public class ClintTask {
     @Scheduled(cron = "${clint-ask.cron}")
     public void run() {
 
+        logger.debug("ClintTask start run");
         // 获取嗅探结果
         Boolean res = getSniffResApi.get();
+        logger.debug("SniffRes: {}", res);
+
         // true 不操作
         if (!res) {
             // 生成端口
+
             Random random = new Random();
             int port = random.nextInt(9999) + 10000;
-
+            logger.debug("random port: {}", port);
             v2rayService.changePort(port);
 
             // 重启服务
@@ -50,6 +54,8 @@ public class ClintTask {
 
             // 修改订阅链接中的端口
             updatePortApi.update(port);
+            logger.debug("end update port: {}", port);
         }
+        logger.debug("ClintTask end run");
     }
 }
