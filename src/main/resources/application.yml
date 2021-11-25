@@ -1,0 +1,27 @@
+server:
+  port: 667
+
+logging:
+  level:
+    xyz:
+      dingxs:
+        subscribeclient: debug
+  file:
+    path: logs
+
+api-config:
+  apis:
+    GetSniffResApi: http://baidu.com
+    SetSubscribeUrlApi: https://google.com
+    GetConfigApi: http://baidu.com
+
+authorized:
+  token: 7a9f0305db436ed82a0c91f270fd5685
+
+v2ray:
+  fileName: config.json
+  restartShell: systemctl restart v2ray
+  statusShell: systemctl status v2ray
+
+clint-ask:
+  cron: 0/10 * * * * ?
