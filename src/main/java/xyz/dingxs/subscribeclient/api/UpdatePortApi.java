@@ -5,8 +5,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import xyz.dingxs.subscribeclient.api.req.UpdatePortReq;
-import xyz.dingxs.subscribeclient.common.config.ApisConfig;
-import xyz.dingxs.subscribeclient.common.config.AuthorizedConfig;
+import xyz.dingxs.subscribeclient.common.config.SubscribeClientConfigProperties;
 
 /**
  * 设置订阅链接
@@ -17,17 +16,14 @@ import xyz.dingxs.subscribeclient.common.config.AuthorizedConfig;
 public class UpdatePortApi {
 
     @Autowired
-    private AuthorizedConfig authorizedConfig;
-
-    @Autowired
-    private ApisConfig apisConfig;
+    private SubscribeClientConfigProperties subscribeClientConfigProperties;
 
     @Autowired
     private RestTemplate restTemplate;
 
     public Boolean update(Integer port) {
-        String url = apisConfig.getApis().get("UpdatePortApi");
-        String token = authorizedConfig.getToken();
+        String url = subscribeClientConfigProperties.getApisConfig().getApis().get("UpdatePortApi");
+        String token = subscribeClientConfigProperties.getAuthorized().getToken();
 
         UpdatePortReq req = new UpdatePortReq();
         req.setPort(port);

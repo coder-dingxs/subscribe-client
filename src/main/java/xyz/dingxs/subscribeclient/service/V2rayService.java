@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xyz.dingxs.subscribeclient.common.config.SubscribeClientConfigProperties;
 import xyz.dingxs.subscribeclient.common.config.V2rayConfig;
 import xyz.dingxs.subscribeclient.common.util.FileUtil;
 
@@ -21,7 +22,7 @@ public class V2rayService {
     private final Logger logger = LoggerFactory.getLogger(V2rayService.class);
 
     @Autowired
-    private V2rayConfig v2rayConfig;
+    private SubscribeClientConfigProperties subscribeClientConfigProperties;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -33,6 +34,7 @@ public class V2rayService {
      * @return 端口
      */
     public void changePort(int port) {
+        V2rayConfig v2rayConfig = subscribeClientConfigProperties.getV2ray();
         String fileName = v2rayConfig.getFileName();
         try {
             String read = FileUtil.read(fileName);
@@ -53,6 +55,7 @@ public class V2rayService {
      * 重启服务
      */
     public void restart() {
+        V2rayConfig v2rayConfig = subscribeClientConfigProperties.getV2ray();
         String restartShell = v2rayConfig.getRestartShell();
         try {
             Process ps = Runtime.getRuntime().exec(restartShell);
@@ -77,6 +80,7 @@ public class V2rayService {
      * @return 状态
      */
     public String status() {
+        V2rayConfig v2rayConfig = subscribeClientConfigProperties.getV2ray();
         String statusShell = v2rayConfig.getStatusShell();
         try {
 

@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import xyz.dingxs.subscribeclient.common.config.ApisConfig;
-import xyz.dingxs.subscribeclient.common.config.AuthorizedConfig;
+import xyz.dingxs.subscribeclient.common.config.SubscribeClientConfigProperties;
 
 /**
  * 获取嗅探结果api
@@ -16,17 +15,14 @@ import xyz.dingxs.subscribeclient.common.config.AuthorizedConfig;
 public class GetSniffResApi {
 
     @Autowired
-    private AuthorizedConfig authorizedConfig;
-
-    @Autowired
-    private ApisConfig apisConfig;
+    private SubscribeClientConfigProperties subscribeClientConfigProperties;
 
     @Autowired
     private RestTemplate restTemplate;
 
     public Boolean get() {
-        String url = apisConfig.getApis().get("GetSniffResApi");
-        String token = authorizedConfig.getToken();
+        String url = subscribeClientConfigProperties.getApisConfig().getApis().get("GetSniffResApi");
+        String token = subscribeClientConfigProperties.getAuthorized().getToken();
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("token", token);

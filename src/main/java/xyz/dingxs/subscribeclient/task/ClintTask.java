@@ -11,8 +11,6 @@ import xyz.dingxs.subscribeclient.api.GetSniffResApi;
 import xyz.dingxs.subscribeclient.api.UpdatePortApi;
 import xyz.dingxs.subscribeclient.service.V2rayService;
 
-import java.util.Random;
-
 /**
  * 定时任务
  *
@@ -36,7 +34,7 @@ public class ClintTask {
     @Autowired
     private GenerateNewPortApi generateNewPortApi;
 
-    @Scheduled(cron = "${clint-ask.cron}")
+    @Scheduled(cron = "${subscribe-client-config.cron}")
     public void run() {
 
         logger.debug("ClintTask start run");

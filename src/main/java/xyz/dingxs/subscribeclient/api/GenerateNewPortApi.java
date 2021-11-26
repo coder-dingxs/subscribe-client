@@ -4,25 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import xyz.dingxs.subscribeclient.common.config.ApisConfig;
-import xyz.dingxs.subscribeclient.common.config.AuthorizedConfig;
+import xyz.dingxs.subscribeclient.common.config.SubscribeClientConfigProperties;
 
 @Component
 public class GenerateNewPortApi {
     @Autowired
-    private AuthorizedConfig authorizedConfig;
 
-    @Autowired
-    private ApisConfig apisConfig;
+    private SubscribeClientConfigProperties subscribeClientConfigProperties;
 
     @Autowired
     private RestTemplate restTemplate;
 
     public Integer generate() {
-        String url = apisConfig.getApis().get("GenerateNewPortApi");
+        String url = subscribeClientConfigProperties.getApisConfig().getApis().get("GenerateNewPortApi");
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("token", authorizedConfig.getToken());
+        headers.add("token", subscribeClientConfigProperties.getAuthorized().getToken());
         HttpEntity<Void> entity = new HttpEntity<>(headers);
         ResponseEntity<Integer> responseEntity = restTemplate.exchange(url, HttpMethod.GET, entity, Integer.class);
         if (HttpStatus.OK == responseEntity.getStatusCode()) {
