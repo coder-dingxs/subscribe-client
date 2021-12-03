@@ -1,7 +1,8 @@
 package xyz.dingxs.subscribeclient.service;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+
 @Service
 public class V2rayService {
 
@@ -24,8 +26,6 @@ public class V2rayService {
     @Autowired
     private SubscribeClientConfigProperties subscribeClientConfigProperties;
 
-    @Autowired
-    private ObjectMapper objectMapper;
 
     /**
      * 修改端口
@@ -34,16 +34,18 @@ public class V2rayService {
      * @return 端口
      */
     public void changePort(int port) {
+
+        JsonMapper jsonMapper = JsonMapper.builder().enable(JsonParser.Feature.ALLOW_COMMENTS).build();
         V2rayConfig v2rayConfig = subscribeClientConfigProperties.getV2ray();
         String fileName = v2rayConfig.getFileName();
         try {
             String read = FileUtil.read(fileName);
             logger.debug("old config: {}", read);
-            Map<String, Object> map = objectMapper.readValue(read, new TypeReference<Map<String, Object>>() {
+            Map<String, Object> map = jsonMapper.readValue(read, new TypeReference<Map<String, Object>>() {
             });
             List<Map<String, Object>> inbounds = (List<Map<String, Object>>) map.get("inbounds");
             inbounds.get(0).put("port", port);
-            String newConfig = objectMapper.writeValueAsString(map);
+            String newConfig = jsonMapper.writeValueAsString(map);
             FileUtil.write(fileName, newConfig);
             logger.debug("new config: {}", newConfig);
         } catch (Exception e) {
